@@ -316,33 +316,38 @@ $(function() {
   }
 
   // Contact Form Handler
-  document.getElementById('contactForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    
-    const submitBtn = this.querySelector('input[type="submit"]');
-    const submitMessage = document.getElementById('submitMessage');
-    
-    submitBtn.disabled = true;
-    submitBtn.value = 'Sending...';
-    submitMessage.textContent = '';
+  $(document).ready(function() {
+    var contactForm = document.getElementById('contactForm');
+    if(contactForm) {
+      contactForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const submitBtn = this.querySelector('input[type="submit"]');
+        const submitMessage = document.getElementById('submitMessage');
+        
+        submitBtn.disabled = true;
+        submitBtn.value = 'Sending...';
+        submitMessage.textContent = '';
 
-    emailjs.sendForm('service_myxs9rs', 'template_8nwy12j', this)
-      .then(function() {
-        submitBtn.value = 'Send Message';
-        submitBtn.disabled = false;
-        submitMessage.textContent = '✓ Message sent successfully!';
-        submitMessage.style.color = 'green';
-        document.getElementById('contactForm').reset();
-        setTimeout(() => {
-          submitMessage.textContent = '';
-        }, 5000);
-      }, function(error) {
-        submitBtn.value = 'Send Message';
-        submitBtn.disabled = false;
-        submitMessage.textContent = '✗ Failed to send message. Please try again.';
-        submitMessage.style.color = 'red';
-        console.log('FAILED...', error);
+        emailjs.sendForm('service_myxs9rs', 'template_8nwy12j', this)
+          .then(function() {
+            submitBtn.value = 'Send Message';
+            submitBtn.disabled = false;
+            submitMessage.textContent = '✓ Message sent successfully!';
+            submitMessage.style.color = 'green';
+            document.getElementById('contactForm').reset();
+            setTimeout(() => {
+              submitMessage.textContent = '';
+            }, 5000);
+          }, function(error) {
+            submitBtn.value = 'Send Message';
+            submitBtn.disabled = false;
+            submitMessage.textContent = '✗ Failed to send message. Please try again.';
+            submitMessage.style.color = 'red';
+            console.log('FAILED...', error);
+          });
       });
+    }
   });
 
 });
