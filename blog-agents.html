@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Autonomous Agents in Unity with A* and Ant Colony Optimization — Samyog Karki</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet" href="css/animate.css">
+
+  <link rel="stylesheet" href="css/owl.carousel.min.css">
+  <link rel="stylesheet" href="css/owl.theme.default.min.css">
+  <link rel="stylesheet" href="css/magnific-popup.css">
+
+  <link rel="stylesheet" href="css/flaticon.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+
+  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light site-navbar-target" id="ftco-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Samyog<span>.</span></a>
+      <button class="navbar-toggler js-fh5co-nav-toggle fh5co-nav-toggle" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="oi oi-menu"></span> Menu
+      </button>
+
+      <div class="collapse navbar-collapse" id="ftco-nav">
+        <ul class="navbar-nav nav ml-auto">
+          <li class="nav-item"><a href="index.html#home-section" class="nav-link"><span>Home</span></a></li>
+          <li class="nav-item"><a href="index.html#about-section" class="nav-link"><span>About</span></a></li>
+          <li class="nav-item"><a href="index.html#skills-section" class="nav-link"><span>Skills</span></a></li>
+          <li class="nav-item"><a href="index.html#services-section" class="nav-link"><span>Services</span></a></li>
+          <li class="nav-item"><a href="index.html#projects-section" class="nav-link"><span>Projects</span></a></li>
+          <li class="nav-item"><a href="index.html#blog-section" class="nav-link"><span>Blog</span></a></li>
+          <li class="nav-item"><a href="index.html#contact-section" class="nav-link"><span>Contact</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_4.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row no-gutters slider-text align-items-end justify-content-center">
+        <div class="col-md-9 ftco-animate pb-5 text-center">
+          <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span class="mr-2"><a href="index.html#blog-section">Blog <i class="fa fa-chevron-right"></i></a></span> <span>Autonomous Agents</span></p>
+          <h1 class="mb-0 bread">Autonomous Agents in Unity with A* and Ant Colony Optimization</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="ftco-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 ftco-animate">
+          <p class="meta mb-4"><span class="mr-3"><i class="fa fa-calendar"></i> March 20, 2025</span> <span class="mr-3"><i class="fa fa-user"></i> Samyog Karki</span> <span><i class="fa fa-tags"></i> Unity, C#, AI, Pathfinding</span></p>
+
+          <h2 class="mb-3">The project, in one paragraph</h2>
+          <p>Three autonomous agents navigate a 3D city built in Unity, picking up items and delivering them across the map. Each agent has to figure out where to go, how to get there efficiently, and how to avoid stepping on the toes of the other two. I built the whole environment — streets, buildings, assets from Mixamo and Sketchfab — and implemented two classic AI algorithms to drive their decisions: A* for pathfinding and Ant Colony Optimization for route discovery.</p>
+
+          <p>
+            <img src="images/image_3.jpg" alt="Unity 3D city environment with autonomous agents" class="img-fluid">
+          </p>
+
+          <h2 class="mb-3 mt-5">Why A* for pathfinding?</h2>
+          <p>A* is the workhorse for a reason. On a grid-like city with blocked tiles (buildings) and open ones (streets), it gives you optimal paths fast, and the heuristic is easy to tune for the kind of movement you want. I implemented it over a nav grid overlaid on the city, with each agent querying it on demand whenever a new delivery goal popped up.</p>
+
+          <p>The interesting part wasn't the algorithm itself — there's a mountain of good pseudocode online for that — it was integrating it cleanly with Unity's update loop. Recomputing a full path every frame is wasteful; recomputing never is dangerous. I ended up with a cadence: recompute on a new goal, recompute on blocked, otherwise just follow the cached path and check for obstacles locally.</p>
+
+          <h2 class="mb-3 mt-5">Why Ant Colony Optimization as well?</h2>
+          <p>ACO felt like overkill for a single path between two points — and it is. Where it earns its keep is when agents are discovering good routes across many deliveries, and their "pheromone trails" can bias future decisions toward paths that worked well. Over time the agents stop treating every delivery as a blank slate and start reinforcing useful routes, which looks surprisingly lifelike from the outside.</p>
+
+          <p>Tuning it was the hard bit. Too much evaporation and the agents forget everything between runs; too little and they get stuck on an early-discovered but sub-optimal path. I spent more time on the evaporation rate and the exploration-vs-exploitation balance than I did on actually implementing the algorithm.</p>
+
+          <h2 class="mb-3 mt-5">Building the city</h2>
+          <p>Assets from Mixamo handled the character animations; Sketchfab covered environment props. The city itself I laid out block by block in Unity — streets wide enough for agents to pass each other, buildings tall enough to make the space feel inhabited. Lighting and post-processing were the last 20% that make a Unity scene feel finished rather than like a student project.</p>
+
+          <h2 class="mb-3 mt-5">What I took away</h2>
+          <p>Two big lessons. First — classical AI algorithms are still incredibly useful for concrete problems. You don't need a neural network to make convincing, intelligent-seeming behaviour; good pathfinding and a bit of reinforcement go a long way. Second — the hardest part of game AI isn't the algorithm. It's the integration: the cadence, the edge cases, the moment when an agent gets stuck on a geometry seam and everything falls apart. Those are the bits that take the time, and they're what you only learn by shipping something.</p>
+
+          <div class="tag-widget post-tag-container mb-5 mt-5">
+            <div class="tagcloud">
+              <a href="#" class="tag-cloud-link">Unity</a>
+              <a href="#" class="tag-cloud-link">C#</a>
+              <a href="#" class="tag-cloud-link">A*</a>
+              <a href="#" class="tag-cloud-link">Ant Colony</a>
+              <a href="#" class="tag-cloud-link">AI</a>
+              <a href="#" class="tag-cloud-link">Game Dev</a>
+            </div>
+          </div>
+
+          <div class="about-author d-flex p-4 bg-light">
+            <div class="bio mr-5">
+              <img src="images/author.jpg" alt="Samyog Karki" class="img-fluid mb-4">
+            </div>
+            <div class="desc">
+              <h3>Samyog Karki</h3>
+              <p>Computer Science graduate and software developer based in Kathmandu. I build full-stack web applications, tinker with home infrastructure, and write about what I learn along the way.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-lg-4 sidebar ftco-animate">
+          <div class="sidebar-box ftco-animate">
+            <h3 class="heading-sidebar">About the Author</h3>
+            <p>Software developer focused on full-stack web applications, cloud deployment, and practical systems work. Currently looking for opportunities to build reliable, scalable software.</p>
+            <p><a href="index.html#contact-section" class="btn btn-primary">Get in touch</a></p>
+          </div>
+
+          <div class="sidebar-box ftco-animate">
+            <h3 class="heading-sidebar">More Posts</h3>
+            <div class="block-21 mb-4 d-flex">
+              <a class="blog-img mr-4" style="background-image: url(images/image_1.jpg);" href="blog-cloud.html"></a>
+              <div class="text">
+                <h3 class="heading"><a href="blog-cloud.html">Deploying a Full-Stack App Across AWS and Azure</a></h3>
+                <div class="meta">
+                  <div><span class="icon-calendar"></span> July 22, 2024</div>
+                  <div><span class="icon-person"></span> Samyog</div>
+                </div>
+              </div>
+            </div>
+            <div class="block-21 mb-4 d-flex">
+              <a class="blog-img mr-4" style="background-image: url(images/image_2.jpg);" href="blog-nas.html"></a>
+              <div class="text">
+                <h3 class="heading"><a href="blog-nas.html">Building a Personal NAS Server from Scratch</a></h3>
+                <div class="meta">
+                  <div><span class="icon-calendar"></span> August 15, 2025</div>
+                  <div><span class="icon-person"></span> Samyog</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sidebar-box ftco-animate">
+            <h3 class="heading-sidebar">Tag Cloud</h3>
+            <div class="tagcloud">
+              <a href="#" class="tag-cloud-link">full-stack</a>
+              <a href="#" class="tag-cloud-link">cloud</a>
+              <a href="#" class="tag-cloud-link">linux</a>
+              <a href="#" class="tag-cloud-link">aws</a>
+              <a href="#" class="tag-cloud-link">azure</a>
+              <a href="#" class="tag-cloud-link">unity</a>
+              <a href="#" class="tag-cloud-link">nas</a>
+              <a href="#" class="tag-cloud-link">networking</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="ftco-footer ftco-section">
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-md">
+          <div class="ftco-footer-widget mb-4">
+            <h2 class="ftco-heading-2">About Me</h2>
+            <p>I'm a Computer Science graduate focused on software development — building full-stack web applications, cloud-deployed systems, and practical digital solutions.</p>
+            <p><a href="index.html#about-section" class="btn btn-primary">Learn more</a></p>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="ftco-footer-widget mb-4 ml-md-4">
+            <h2 class="ftco-heading-2">Links</h2>
+            <ul class="list-unstyled">
+              <li><a href="index.html#home-section"><span class="fa fa-chevron-right mr-2"></span>Home</a></li>
+              <li><a href="index.html#about-section"><span class="fa fa-chevron-right mr-2"></span>About</a></li>
+              <li><a href="index.html#skills-section"><span class="fa fa-chevron-right mr-2"></span>Skills</a></li>
+              <li><a href="index.html#projects-section"><span class="fa fa-chevron-right mr-2"></span>Projects</a></li>
+              <li><a href="index.html#contact-section"><span class="fa fa-chevron-right mr-2"></span>Contact</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="ftco-footer-widget mb-4">
+            <h2 class="ftco-heading-2">Recent Posts</h2>
+            <ul class="list-unstyled">
+              <li><a href="blog-cloud.html"><span class="fa fa-chevron-right mr-2"></span>Deploying Across AWS and Azure</a></li>
+              <li><a href="blog-nas.html"><span class="fa fa-chevron-right mr-2"></span>Building a Personal NAS Server</a></li>
+              <li><a href="blog-agents.html"><span class="fa fa-chevron-right mr-2"></span>Autonomous Agents in Unity</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="ftco-footer-widget mb-4">
+            <h2 class="ftco-heading-2">Contact Info</h2>
+            <div class="block-23 mb-3">
+              <ul>
+                <li><span class="icon fa fa-map-marker"></span><span class="text">Basundhara, Kathmandu, Nepal</span></li>
+                <li><a href="tel://+977-9818054248"><span class="icon fa fa-phone"></span><span class="text">+977 9818054248</span></a></li>
+                <li><a href="mailto:samyogkarki860@gmail.com"><span class="icon fa fa-paper-plane pr-4"></span><span class="text">samyogkarki860@gmail.com</span></a></li>
+              </ul>
+            </div>
+            <ul class="ftco-footer-social list-unstyled mt-2">
+              <li class="ftco-animate"><a href="https://linkedin.com/in/samyog-karki" target="_blank" rel="noopener" title="LinkedIn"><span class="fa fa-linkedin"></span></a></li>
+              <li class="ftco-animate"><a href="https://github.com/SamyogKarki" target="_blank" rel="noopener" title="GitHub"><span class="fa fa-github"></span></a></li>
+              <li class="ftco-animate"><a href="https://samyogkarki.com.np" target="_blank" rel="noopener" title="Portfolio"><span class="fa fa-globe"></span></a></li>
+              <li class="ftco-animate"><a href="mailto:samyogkarki860@gmail.com" title="Email"><span class="fa fa-envelope"></span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script> Samyog Karki. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.easing.1.3.js"></script>
+  <script src="js/jquery.waypoints.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/jquery.animateNumber.min.js"></script>
+  <script src="js/scrollax.min.js"></script>
+
+  <script src="js/main.js"></script>
+
+</body>
+</html>
