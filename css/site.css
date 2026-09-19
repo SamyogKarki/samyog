@@ -104,7 +104,9 @@ p  { margin: 0 0 1.1em; color: var(--text-dim); }
   -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 20%, transparent 78%);
   mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 20%, transparent 78%);
 }
-body > *:not(.grid-bg) { position: relative; z-index: 1; }
+/* Excludes .site-header: this selector outscores .site-header on specificity,
+   and would otherwise override its position:fixed with position:relative. */
+body > *:not(.grid-bg):not(.site-header) { position: relative; z-index: 1; }
 
 /* ---------- header ---------- */
 
